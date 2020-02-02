@@ -1,0 +1,35 @@
+:root {
+    --first-font: 'Ubuntu', sans-serif;
+    --second-font: 'Baloo Da', cursive;
+}
+
+.techfont {
+    font-size: 1.2em;
+    font-family: var(--first-font);
+}
+
+.big-brand {
+    font-size: 1.5em;
+}
+
+.navbar-flex {
+    display: flex;
+    justify-content: space-between;
+}
+.navbar-flex-left {
+    order: 0;
+}
+.navbar-flex-right {
+    order: 1;
+}
+
+.content-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.jumbotron {
+    background-color: #fff;
+    max-width: 35vw;
+}

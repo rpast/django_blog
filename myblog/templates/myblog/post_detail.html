@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+{% extends 'myblog/base.html' %}
+
+{% block content %}
+
+    <h1 class="post-title">{{ post.title }}</h1>
+
+    {% if post.published_date %}
+        <div class="date postdate">
+            {{ post.published_date }}
+        </div>
+
+    {% else %}
+        <a class="btn btn-primary" href="{% url "post_publish" pk=post.pk %}">Publish</a>
+    {% endif %}
+
+    <hr>
+
+    <p class="post-content">
+        <!-- safe translates the html tags to the formatting -->
+        {{ post.title|safe|linebreaksbr }}
+        {{ post.text|safe|linebreaksbr }}
+    </p>
+
+    {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url "post_update" pk=post.pk %}">Edit</a>
+        <a class="btn btn-primary" href="{% url "post_delete" pk=post.pk %}">Delete</a>
+
+    {% endif %}
+
+    <hr>
+
+    <a class="btn btn-primary btn-comment" href="{% url "add_comment_to_post" pk=post.pk %}">Comment</a>
+
+    <div class="container">
+        {%  for comment in post.comments.all %}
+            <br>
+            {% if user.is_authenticated or comment.approved_comment %}
+                {{ comment.created_date }}
+
+
+                {% if not comment.approved_comment %}
+                    <a class="btn btn-primary" href="{% url "comment_remove" pk=comment.pk %}">Remove</a>
+                    <a class="btn btn-primary" href="{% url "comment_approve" pk=comment.pk %}">Approve</a>
+                {% endif %}
+
+                <p>{{ comment.text|safe|linebreaks }}</p>
+                <p>Posted by: {{ comment.author }}</p>
+
+            {% endif %}
+
+            {% empty %}
+                <p>No comments</p>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
