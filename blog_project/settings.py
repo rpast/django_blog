@@ -12,11 +12,16 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os, json, sentry_sdk
 
+# Json load for sensitive data
+with open('/etc/config.json') as config_file:
+    config = json.load(config_file)
+
+
 # Sentry integration ##########################################################
 from sentry_sdk.integrations.django import DjangoIntegration
 
 sentry_sdk.init(
-    dsn="https://f21471d842ef4467b213b834c8903dcd@sentry.io/2355602",
+    dsn=config["DSN_PATH"],
     integrations=[DjangoIntegration()],
 
     # If you wish to associate users to errors (assuming you are using
@@ -24,10 +29,6 @@ sentry_sdk.init(
     send_default_pii=False
 )
 ###############################################################################
-
-# Json load for sensitive data
-with open('/etc/config.json') as config_file:
-    config = json.load(config_file)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
